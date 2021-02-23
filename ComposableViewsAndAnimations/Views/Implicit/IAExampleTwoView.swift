@@ -51,7 +51,7 @@ struct IAExampleTwoView: View {
                     }
                 // When useAnimation is true, the default animation effect will be used.
                 // When useAnimation is false, there will be no animation.
-//                    .animation(useAnimation ? .linear(duration: 2.5) : .none)
+                  .animation(useAnimation ? .linear(duration: 2.5) : .none)
                 
             }
             .navigationTitle("Example 2")

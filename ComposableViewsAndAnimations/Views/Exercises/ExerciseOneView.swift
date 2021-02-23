@@ -17,7 +17,9 @@ struct ExerciseOneView: View {
         
     // Controls what typeface the text is shown in
     @State private var typeFace: String = "Helvetica-Neue"
-
+    
+   // Add a timer that will fire in 2 second
+    let timer = Timer.publish(every: 2, on: .main, in: .common).autoconnect()
     // Whether to apply the animation
     @State private var useAnimation = false
 
@@ -42,7 +44,16 @@ struct ExerciseOneView: View {
                 
                 Text(typeFace)
                     .font(.custom(typeFace, size: 30.0))
-                
+                    .border(Color.blue, width:
+                                1.0)
+                    .onTapGesture {
+                        typeFace =
+                        ExerciseOneView
+                            .fontNames
+                            .randomElement()!
+                    }
+                    .animation(useAnimation ?
+                                .default : .none)
             }
             .navigationTitle("Exercise 1")
             .toolbar {
@@ -52,7 +63,13 @@ struct ExerciseOneView: View {
                     }
                 }
             }
-
+            
+            .onReceive(timer) { input in
+                
+                useAnimation = true
+                
+                timer.upstream.connect().cancel()
+            }
         }
         
     }

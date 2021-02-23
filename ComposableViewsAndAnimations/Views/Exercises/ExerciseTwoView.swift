@@ -17,7 +17,12 @@ struct ExerciseTwoView: View {
         
     // Controls what typeface the text is shown in
     @State private var typeFace: String = "Helvetica-Neue"
+    // control the hue of the typeFace
+    @State private var hue: Color = .blue
 
+    
+    let timer = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
+    
     // Whether to apply the animation
     @State private var useAnimation = false
 
@@ -42,8 +47,20 @@ struct ExerciseTwoView: View {
                 
                 Text(typeFace)
                     .font(.custom(typeFace, size: 30.0))
+                    
+                    .foregroundColor(hue)
                 
+                    .onTapGesture {
+                        hue = Color(hue:
+                                       Double.random(in: 1...360) / 360,
+                                   saturation: 0.8,
+                                   brightness: 0.8)
+                    }
             }
+            
+            .animation(useAnimation ?
+                        .default : .none)
+            
             .navigationTitle("Exercise 2")
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
@@ -52,7 +69,12 @@ struct ExerciseTwoView: View {
                     }
                 }
             }
-
+            .onReceive(timer) { input in
+                
+                useAnimation = true
+                
+                timer.upstream.connect().cancel()
+            }
         }
         
     }
